@@ -3,6 +3,7 @@ package br.com.unip;
 import br.com.unip.model.Gerente;
 import br.com.unip.service.GerenteService;
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -10,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class ApsApplication implements ApplicationRunner {
-
+    @Autowired
     private GerenteService gerenteService;
 
     public static void main(String[] args) {
