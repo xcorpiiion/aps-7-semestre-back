@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: aps-7-semestre
+  data:
+    mongodb:
+      auto-index-creation: true
+      host: localhost
+      port: 27017
+      database: aps-7-semestre
