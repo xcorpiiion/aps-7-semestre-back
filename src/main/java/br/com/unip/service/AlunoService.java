@@ -1,34 +1,68 @@
 package br.com.unip.service;
 
+import br.com.study.genericidmongo.exception.ObjectNotFoundException;
 import br.com.unip.model.Aluno;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import br.com.unip.repository.AlunoRepository;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface AlunoService {
+import static org.springframework.util.CollectionUtils.isEmpty;
 
-    Aluno save(Aluno aluno);
+@Getter
+@AllArgsConstructor
+@Service
+public class AlunoService {
 
-    Aluno find(Long id);
+    @Autowired
+    private AlunoRepository repository;
 
-    List<Aluno> findAll();
+    public Aluno save(Aluno aluno) {
+        aluno.setCreateDate(new DateTime());
+        return this.getRepository().save(aluno);
+    }
 
-    List<Aluno> findAll(List<Long> ids);
+    public Aluno update(String id, Aluno aluno) {
+        Optional<Aluno> prof = this.getRepository().findById(id);
+        if (prof.isEmpty()) {
+            throw new ObjectNotFoundException("Aluno não encontrado");
+        }
+        aluno.setId(id);
+        aluno.setCreateDate(prof.get().getCreateDate());
+        return this.getRepository().save(aluno);
+    }
 
-    List<Aluno> findAll(Sort sort);
+    public Aluno findById(String id) {
+        Optional<Aluno> aluno = this.getRepository().findById(id);
+        if (aluno.isEmpty()) {
+            throw new ObjectNotFoundException("Aluno não encontrado");
+        }
+        return aluno.get();
+    }
 
-    Page<Aluno> findAll(Pageable pageable);
+    public List<Aluno> findAll() {
+        List<Aluno> alunoes = this.getRepository().findAll();
+        if (isEmpty(alunoes)) {
+            throw new ObjectNotFoundException("Não existe aluno com esse nome");
+        }
+        return alunoes;
+    }
 
-    void delete(Long id);
+    public Aluno findByEmail(String name) {
+        Aluno alunoes = this.getRepository().findByEmail(name);
+        if (alunoes == null) {
+            throw new ObjectNotFoundException("Não existe aluno com esse email");
+        }
+        return alunoes;
+    }
 
-    void delete(List<Aluno> aluno);
-
-    void delete(Aluno aluno);
-
-    void deleteAll();
-
-    long count();
+    public void deleteById(String id) {
+        this.getRepository().deleteById(id);
+    }
 
 }

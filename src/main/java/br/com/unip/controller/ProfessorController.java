@@ -4,11 +4,13 @@ import br.com.unip.model.Professor;
 import br.com.unip.service.ProfessorService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.ok;
 
 @Getter
@@ -43,6 +45,17 @@ public class ProfessorController {
     @GetMapping("/nomes")
     public ResponseEntity<List<Professor>> findByNome(@RequestBody String nome) {
         return ok(this.getService().findByName(nome));
+    }
+
+    @GetMapping("/emails/{email}")
+    public ResponseEntity<Professor> findByEmail(@PathVariable String email) {
+        return ok(this.getService().findByEmail(email));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable String id) {
+        this.getService().deleteById(id);
+        return noContent().build();
     }
 
 }

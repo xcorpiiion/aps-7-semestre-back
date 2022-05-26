@@ -9,6 +9,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import static br.com.unip.model.TipoConta.GERENTE;
+
 @SpringBootApplication
 public class ApsApplication implements ApplicationRunner {
     @Autowired
@@ -26,7 +28,7 @@ public class ApsApplication implements ApplicationRunner {
             gerente.setEmail("master@iscontente");
             gerente.setNome("Gerente");
             gerente.setSenha("12345678");
-            gerente.setMaster(true);
+            gerente.setTipoConta(GERENTE);
             gerente.setCreateDate(new DateTime());
             this.gerenteService.save(gerente);
         }

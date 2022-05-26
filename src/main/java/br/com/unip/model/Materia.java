@@ -29,10 +29,16 @@ public class Materia extends AbstractMongoId {
     @Indexed
     private String nome;
 
-    @NotNull(message = "Professor não pode ser null.")
-    @NotBlank(message = "Professor não pode conter apenas caracteres em branco.")
-    @NotEmpty(message = "Professor não pode conter apenas caracteres em branco.")
+    @NotNull(message = "professorEmail não pode ser null.")
+    @NotBlank(message = "professorEmail não pode conter apenas caracteres em branco.")
+    @NotEmpty(message = "professorEmail não pode conter apenas caracteres em branco.")
     @OneToMany
-    private Professor professor;
+    private String professorEmail;
+
+    @NotNull(message = "professorNome não pode ser null.")
+    @NotBlank(message = "professorNome não pode conter apenas caracteres em branco.")
+    @NotEmpty(message = "professorNome não pode conter apenas caracteres em branco.")
+    @OneToMany
+    private String professorNome;
 
 }

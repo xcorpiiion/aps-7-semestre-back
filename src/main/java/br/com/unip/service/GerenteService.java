@@ -1,8 +1,14 @@
 package br.com.unip.service;
 
 import br.com.study.genericidmongo.exception.ObjectNotFoundException;
+import br.com.unip.dto.GerenteConta;
+import br.com.unip.dto.UserLogin;
+import br.com.unip.model.Aluno;
 import br.com.unip.model.Gerente;
+import br.com.unip.model.Professor;
+import br.com.unip.repository.AlunoRepository;
 import br.com.unip.repository.GerenteRepository;
+import br.com.unip.repository.ProfessorRepository;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.joda.time.DateTime;
@@ -11,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static br.com.unip.model.TipoConta.*;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
 @Getter
@@ -19,10 +26,28 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 public class GerenteService {
 
     private final GerenteRepository repository;
+    private final ProfessorRepository professorRepository;
+    private final AlunoRepository alunoRepository;
 
     public Gerente save(Gerente gerente) {
         gerente.setCreateDate(new DateTime());
         return this.getRepository().save(gerente);
+    }
+
+    public UserLogin login(UserLogin userLogin) {
+        Optional<Gerente> gerente = this.getRepository().findByEmail(userLogin.getEmail());
+        Aluno aluno = this.getAlunoRepository().findByEmail(userLogin.getEmail());
+        Professor professor = this.getProfessorRepository().findByEmail(userLogin.getEmail());
+        if (gerente.isPresent()) {
+            userLogin.setTipoConta(GERENTE);
+        } else if (aluno != null) {
+            userLogin.setTipoConta(ALUNO);
+        } else if (professor != null) {
+            userLogin.setTipoConta(PROFESSOR);
+        } else {
+            throw new ObjectNotFoundException("Conta não encontrado");
+        }
+        return userLogin;
     }
 
     public Gerente update(String id, Gerente gerente) {

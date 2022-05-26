@@ -31,6 +31,7 @@ public class ProfessorService {
             throw new ObjectNotFoundException("Professor não encontrado");
         }
         professor.setId(id);
+        professor.setCreateDate(prof.get().getCreateDate());
         return this.getRepository().save(professor);
     }
 
@@ -58,5 +59,16 @@ public class ProfessorService {
         return professores.get();
     }
 
+    public Professor findByEmail(String name) {
+        Professor professores = this.getRepository().findByEmail(name);
+        if (professores == null) {
+            throw new ObjectNotFoundException("Não existe professor com esse email");
+        }
+        return professores;
+    }
+
+    public void deleteById(String id) {
+        this.getRepository().deleteById(id);
+    }
 
 }

@@ -1,5 +1,7 @@
 package br.com.unip.controller;
 
+import br.com.unip.dto.GerenteConta;
+import br.com.unip.dto.UserLogin;
 import br.com.unip.model.Gerente;
 import br.com.unip.service.GerenteService;
 import lombok.AllArgsConstructor;
@@ -23,6 +25,11 @@ public class GerenteController {
     @PostMapping()
     public ResponseEntity<Gerente> save(@RequestBody Gerente gerente) {
         return ok(this.getService().save(gerente));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserLogin> login(@RequestBody UserLogin userLogin) {
+        return ok(this.getService().login(userLogin));
     }
 
     @PutMapping("/{id}")

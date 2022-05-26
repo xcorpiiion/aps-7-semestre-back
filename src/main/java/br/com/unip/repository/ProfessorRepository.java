@@ -12,5 +12,7 @@ public interface ProfessorRepository extends MongoRepository<Professor, String> 
 
     Optional<List<Professor>> findByNome(String name);
 
+    Professor findByEmail(String email);
+
 
 }

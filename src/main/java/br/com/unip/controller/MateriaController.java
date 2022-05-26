@@ -2,13 +2,18 @@ package br.com.unip.controller;
 
 import br.com.unip.model.Materia;
 import br.com.unip.service.MateriaService;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Getter
 @RestController
+@AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200/")
 @RequestMapping("materias")
 public class MateriaController {
 
